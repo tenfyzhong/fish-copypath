@@ -8,3 +8,4 @@ jobs:
     uses: tenfyzhong/workflows/.github/workflows/fishtape.yml@main
     with:
       test-glob: "tests/*.fish"
+      dependencies: "xsel xclip"
