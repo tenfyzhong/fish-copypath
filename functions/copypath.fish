@@ -1,5 +1,5 @@
 function copypath --description 'copy path to clipboard'
-    argparse -X 1 'h/help' -- $argv 2>/dev/null
+    argparse -X 1 't/tail' 'h/help' -- $argv 2>/dev/null
     if test $status -ne 0
         return 1
     end
@@ -20,6 +20,11 @@ function copypath --description 'copy path to clipboard'
 
     set path (realpath $target)
     set path (string trim -r $path)
+
+    if set -q _flag_tail
+        set path (basename $path)
+    end
+
     echo -n $path | fish_clipboard_copy
 end
 
@@ -29,5 +34,6 @@ function _copypath_help
         'Usage: copypath [path]' \
         '' \
         'Options:' \
+        '  -h/--tail               get the tail part' \
         '  -h/--help               print this help message'
 end
