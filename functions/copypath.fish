@@ -34,6 +34,6 @@ function _copypath_help
         'Usage: copypath [path]' \
         '' \
         'Options:' \
-        '  -h/--tail               get the tail part' \
+        '  -t/--tail               get the tail part' \
         '  -h/--help               print this help message'
 end
