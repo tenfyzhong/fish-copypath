@@ -1,5 +1,5 @@
 function copypath --description 'copy path to clipboard'
-    argparse -X 1 't/tail' 'h/help' -- $argv 2>/dev/null
+    argparse -X 1 't/tail' 'a/absolute' 'h/help' -- $argv 2>/dev/null
     if test $status -ne 0
         return 1
     end
@@ -25,6 +25,14 @@ function copypath --description 'copy path to clipboard'
         set path (basename $path)
     end
 
+    # Replace home directory with ~ unless absolute flag is set
+    if not set -q _flag_absolute
+        set -l home_dir (realpath $HOME)
+        if string match -q "$home_dir/*" "$path"
+            set path (string replace "$home_dir" "~" "$path")
+        end
+    end
+
     echo -n $path | fish_clipboard_copy
 end
 
@@ -35,5 +43,6 @@ function _copypath_help
         '' \
         'Options:' \
         '  -t/--tail               get the tail part' \
+        '  -a/--absolute           use absolute path instead of shortening with ~' \
         '  -h/--help               print this help message'
 end
